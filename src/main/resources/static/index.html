@@ -1,1 +1,27 @@
-Hello GitHub Flow!
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <title>janken</title>
+</head>
+
+<body>
+
+  <p>
+    <!--form actionが処理を渡す先を示す
+      input nameがパラメータ名を表している
+    この場合，kakeru1,kakeru2の2つの変数が/sample25にpost メソッドで渡される-->
+  <form action="lec02" method="post">
+    <input type="text " name="text1" th:value="${text1_value}" />
+
+    <input type="submit" value="入室">
+  </form>
+
+  </p>
+
+
+
+</body>
+
+</html>
