@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
 
 <head>
   <meta charset="utf-8">
@@ -7,22 +7,32 @@
 </head>
 
 <body>
+  <a href="/logout">ログアウト</a>
+
   <h1>Lec02 GET! </h1>
 
 
+  <a>
+    <div th:if=" ${room}">
+      エントリー
+      <ul>
+        <li th:each="user : ${room.users}">[[${user}]]</li>
+      </ul>
+    </div>
+  </a>
 
-  <a th:text=" ${user_name}"> </a>
-  <p></p>
+  <p> [[${login_user}]]</p>
+
 
   <a href="gu">ぐー</a>
   <a href="choki">ちょき</a>
   <a href="pa">ぱー</a>
 
-  <p></p>
-  <a th:text=" ${player}"> </a>
-
-  <p th:text=" ${cpu}"> </p>
-  <p th:text=" ${judge}"> </p>
+  <div>
+    [[${player}]]<br>
+    [[${cpu}]]<br>
+    [[${judge}]]<br>
+  </div>
 </body>
 
 </html>

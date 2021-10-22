@@ -1,13 +1,19 @@
 package oit.is.z1214.kaizi.janken.controller;
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import oit.is.z1214.kaizi.janken.model.Entry;
 import oit.is.z1214.kaizi.janken.model.Janken;
+
 
 /**
  * Sample21Controller
@@ -17,15 +23,30 @@ import oit.is.z1214.kaizi.janken.model.Janken;
 
 @Controller
 
-public class Lec02Controller {
-  @GetMapping("lec02")
-  public String lec02(){
-    return "lec02.html";
-  }
+@RequestMapping("/lec02")
 
-  @PostMapping("lec02")
-  public String postRequest(@RequestParam("text1")String str, ModelMap model){
-    model.addAttribute("user_name","Hi"+str );
+public class Lec02Controller {
+
+  @Autowired
+  private Entry entry;
+
+
+
+    /**
+   *
+   * @param model Thymeleafにわたすデータを保持するオブジェクト
+   * @param prin  ログインユーザ情報が保持されるオブジェクト
+   * @return
+   */
+
+ @GetMapping("step1")
+  public String lec02(ModelMap model, Principal prin) {
+    String loginUser = prin.getName(); // ログインユーザ情報
+    this.entry.addUser(loginUser);
+    model.addAttribute("login_user", "Hi "+loginUser);
+
+
+    model.addAttribute("room", this.entry);
     return "lec02.html";
   }
 
