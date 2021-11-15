@@ -23,6 +23,33 @@
 
   <p> [[${login_user}]]</p>
 
+  <p th:if="${Users7}">
+  <div th:each=" User,stat:${Users7}">
+    <tr>
+      <td>Index:[[${stat.index}]]</td>
+      <td>ユーザ名:[[${User.name}]]</td>
+    </tr>
+  </div>
+  </p>
+
+  <p th:if="${Matches7}">
+  <div th:each=" Match,stat:${Matches7}">
+    <tr>
+      <td>Index:[[${stat.index}]]</td>
+      <td>ユーザ1:[[${Match.user1}]]</td>
+      <td>ユーザ2:[[${Match.user2}]]</td>
+      <td>ユーザ1の手:[[${Match.user1Hand}]]</td>
+      <td>ユーザ2の手:[[${Match.user2Hand}]]</td>
+    </tr>
+  </div>
+  </p>
+
+
+  <li th:each="user : ${users}">
+    <a th:href="@{/match(id=${user.id})}"> [[${user.name}]]
+    </a>
+  </li>
+
 
   <a href="gu">ぐー</a>
   <a href="choki">ちょき</a>
