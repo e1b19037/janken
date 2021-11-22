@@ -92,4 +92,9 @@ public class Lec02Controller {
     return "lec02.html";
   }
 
+  @GetMapping("match")
+  public String Match(ModelMap model) {
+    return "match.html";
+  }
+
 }

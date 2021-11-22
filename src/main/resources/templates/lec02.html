@@ -16,18 +16,21 @@
     <div th:if=" ${room}">
       エントリー
       <ul>
-        <li th:each="user : ${room.users}">[[${user}]]</li>
+        <li th:each="user : ${room.users}">
+          [[${user}]]
+        </li>
       </ul>
     </div>
   </a>
 
   <p> [[${login_user}]]</p>
 
+
   <p th:if="${Users7}">
   <div th:each=" User,stat:${Users7}">
     <tr>
-      <td>Index:[[${stat.index}]]</td>
-      <td>ユーザ名:[[${User.name}]]</td>
+      <td>id:[[${stat.index}]]</td>
+      <td>user:[[${User.name}]]</td>
     </tr>
   </div>
   </p>
@@ -35,20 +38,15 @@
   <p th:if="${Matches7}">
   <div th:each=" Match,stat:${Matches7}">
     <tr>
-      <td>Index:[[${stat.index}]]</td>
-      <td>ユーザ1:[[${Match.user1}]]</td>
-      <td>ユーザ2:[[${Match.user2}]]</td>
-      <td>ユーザ1の手:[[${Match.user1Hand}]]</td>
-      <td>ユーザ2の手:[[${Match.user2Hand}]]</td>
+      <td>id:[[${stat.index}]]</td>
+      <td>user1:[[${Match.user1}]]</td>
+      <td>user2:[[${Match.user2}]]</td>
+      <td>user1の手:[[${Match.user1Hand}]]</td>
+      <td>user2の手:[[${Match.user2Hand}]]</td>
     </tr>
   </div>
   </p>
 
-
-  <li th:each="user : ${users}">
-    <a th:href="@{/match(id=${user.id})}"> [[${user.name}]]
-    </a>
-  </li>
 
 
   <a href="gu">ぐー</a>
