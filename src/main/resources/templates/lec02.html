@@ -11,53 +11,44 @@
 
   <h1>Lec02 GET! </h1>
 
+  <p> [[${login_user}]]</p>
 
   <a>
-    <div th:if=" ${room}">
+    <div th:if=" ${users}">
       エントリー
       <ul>
-        <li th:each="user : ${room.users}">
-          [[${user}]]
+        <li th:each="user : ${users}">
+          <a th:href="@{/lec02/match(id=${user.id})}">
+            [[${user.name}]]
+          </a>
         </li>
       </ul>
     </div>
   </a>
 
-  <p> [[${login_user}]]</p>
 
 
-  <p th:if="${Users7}">
-  <div th:each=" User,stat:${Users7}">
+
+  <p th:if="${users}">
+  <div th:each=" User,stat:${users}" th:object=${User}>
     <tr>
-      <td>id:[[${stat.index}]]</td>
-      <td>user:[[${User.name}]]</td>
+      <td th:text="'id:' + *{id}"></td>
+      <td th:text="'user:' + *{name}"></td>
     </tr>
   </div>
   </p>
 
-  <p th:if="${Matches7}">
-  <div th:each=" Match,stat:${Matches7}">
+  <div th:each=" Match,stat:${matches}" th:object=${Match}>
     <tr>
-      <td>id:[[${stat.index}]]</td>
-      <td>user1:[[${Match.user1}]]</td>
-      <td>user2:[[${Match.user2}]]</td>
-      <td>user1の手:[[${Match.user1Hand}]]</td>
-      <td>user2の手:[[${Match.user2Hand}]]</td>
+      <td th:text="'id:' + *{id}"></td>
+      <td th:text="'user1:' + *{user1}"></td>
+      <td th:text="'user2:' + *{user2}"></td>
+      <td th:text="'user1の手:' + *{user1Hand}"></td>
+      <td th:text="'user2の手:' + *{user2Hand}"></td>
     </tr>
   </div>
   </p>
 
-
-
-  <a href="gu">ぐー</a>
-  <a href="choki">ちょき</a>
-  <a href="pa">ぱー</a>
-
-  <div>
-    [[${player}]]<br>
-    [[${cpu}]]<br>
-    [[${judge}]]<br>
-  </div>
 </body>
 
 </html>

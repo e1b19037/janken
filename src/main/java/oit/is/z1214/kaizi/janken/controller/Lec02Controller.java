@@ -41,22 +41,67 @@ public class Lec02Controller {
    * @param prin  ログインユーザ情報が保持されるオブジェクト
    * @return
    */
-  // @Transactional
+  @Transactional
   @GetMapping("step1")
   public String lec02(ModelMap model, Principal prin) {
     String loginUser = prin.getName(); // ログインユーザ情報
     this.entry.addUser(loginUser);
     model.addAttribute("login_user", "Hi " + loginUser);
-
-    model.addAttribute("room", this.entry);
-
-    ArrayList<User> Users7 = userMapper.selectAllUser();
-    model.addAttribute("Users7", Users7);
-
-    ArrayList<Match> Matches7 = matchMapper.selectAllMatch();
-    model.addAttribute("Matches7", Matches7);
+    model.addAttribute("entry", this.entry);
+    ArrayList<User> users = userMapper.selectAllUser();
+    model.addAttribute("users", users);
+    ArrayList<Match> matches = matchMapper.selectAllMatch();
+    model.addAttribute("matches", matches);
 
     return "lec02.html";
+  }
+
+  @Transactional
+  @GetMapping("match")
+  public String Match(@RequestParam Integer id, ModelMap model, Principal prin) {
+    String loginUser = prin.getName(); // ログインユーザ情報
+    User login_user = userMapper.selectByName(loginUser);
+    User id_user = userMapper.select(id);
+    model.addAttribute("login_user", login_user);
+    model.addAttribute("id_user", id_user);
+
+    return "match.html";
+  }
+
+  @Transactional
+  @GetMapping("battle")
+  public String battle(@RequestParam Integer id, @RequestParam String hand, ModelMap model, Principal prin) {
+    int login_id = 0;
+    String cpu_hand = "GU";
+    String result;
+    String loginUser = prin.getName(); // ログインユーザ情報
+
+    if (loginUser.equals("ほんだ")) {
+      login_id = 2;
+    }
+    Match te = new Match();
+    te.setUser1(login_id);
+    te.setUser2(id);
+    te.setUser1Hand(hand);
+    te.setUser2Hand(cpu_hand);
+    matchMapper.insertMatch(te);
+    ArrayList<Match> match = matchMapper.selectAllMatch();
+    model.addAttribute("match", match);
+    model.addAttribute("yourhand", hand);
+    model.addAttribute("cpuhand", cpu_hand);
+
+    if (hand.equals("Gu")) {
+      result = "draw!";
+      model.addAttribute("result", result);
+    } else if (hand.equals("Choki")) {
+      result = "You Lose!";
+      model.addAttribute("result", result);
+    } else if (hand.equals("Pa")) {
+      result = "You Win!";
+      model.addAttribute("result", result);
+    }
+    return "match.html";
+
   }
 
   @GetMapping("gu")
@@ -90,11 +135,6 @@ public class Lec02Controller {
     model.addAttribute("judge", janken.getJudge());
     model.addAttribute("cpu", "相手の手 " + janken.getcpu());
     return "lec02.html";
-  }
-
-  @GetMapping("match")
-  public String Match(ModelMap model) {
-    return "match.html";
   }
 
 }
