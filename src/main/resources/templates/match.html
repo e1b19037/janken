@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+  <meta charset="utf-8">
+  <title>Lec04</title>
+</head>
+
+<body>
+  <div><a href="/logout">ログアウト</a></div>
+
+  <div th:if="${id_user}">
+    <span>
+
+      相手 [[${id_user.name}]]
+    </span>
+    <p>
+      あなた <span sec:authentication="name"></span>
+    </p>
+  </div>
+  <div th:if="${id_user}">
+    <a th:href="@{/lec02/battle(id=${id_user.id},hand=Gu)}">ぐー</a>
+    <a th:href="@{/lec02/battle(id=${id_user.id},hand=Choki)}">ちょき</a>
+    <a th:href="@{/lec02/battle(id=${id_user.id},hand=Pa)}">ぱー</a>
+  </div>
+  <div th:if=${yourhand}>
+    あなたの手 [[${yourhand}]]
+  </div>
+  <div th:if=${cpuhand}>
+    相手の手 [[${cpuhand}]]
+  </div>
+  <div th:if=${result}>
+    結果 [[${result}]]
+  </div>
+  <div>
+    <a href="/lec02/step1">もどる</a>
+  </div>
+</body>
+
+</html>
