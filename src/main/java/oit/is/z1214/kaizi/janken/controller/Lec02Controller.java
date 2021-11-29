@@ -19,6 +19,8 @@ import oit.is.z1214.kaizi.janken.model.UserMapper;
 import oit.is.z1214.kaizi.janken.model.User;
 import oit.is.z1214.kaizi.janken.model.Match;
 import oit.is.z1214.kaizi.janken.model.MatchMapper;
+import oit.is.z1214.kaizi.janken.model.MatchInfo;
+import oit.is.z1214.kaizi.janken.model.MatchInfoMapper;
 
 @Controller
 
@@ -31,6 +33,9 @@ public class Lec02Controller {
 
   @Autowired
   MatchMapper matchMapper;
+
+  @Autowired
+  MatchInfoMapper matchInfoMapper;
 
   @Autowired
   private Entry entry;
@@ -53,6 +58,9 @@ public class Lec02Controller {
     ArrayList<Match> matches = matchMapper.selectAllMatch();
     model.addAttribute("matches", matches);
 
+    ArrayList<MatchInfo> matchInfo = matchInfoMapper.selectActive(true);
+    model.addAttribute("matchinfo", matchInfo);
+
     return "lec02.html";
   }
 
@@ -62,6 +70,11 @@ public class Lec02Controller {
     String loginUser = prin.getName(); // ログインユーザ情報
     User login_user = userMapper.selectByName(loginUser);
     User id_user = userMapper.select(id);
+
+    MatchInfo matchInfo = new MatchInfo();
+    matchInfo.setUser1(login_user.getId());
+    matchInfo.setUser2(id);
+    matchInfo.setActive(true);
     model.addAttribute("login_user", login_user);
     model.addAttribute("id_user", id_user);
 
@@ -71,36 +84,24 @@ public class Lec02Controller {
   @Transactional
   @GetMapping("battle")
   public String battle(@RequestParam Integer id, @RequestParam String hand, ModelMap model, Principal prin) {
-    int login_id = 0;
-    String cpu_hand = "GU";
-    String result;
+
     String loginUser = prin.getName(); // ログインユーザ情報
+    User login_user = userMapper.selectByName(loginUser);
+    User id_user = userMapper.select(id);
+    // ArrayList<MatchInfo> EMatchInfo = matchInfoMapper.selectActiveUser(true,
+    // login_user.getId());
+    model.addAttribute("yourHand", hand);
+    model.addAttribute("login_user", loginUser);
+    model.addAttribute("id_user", id_user);
+    MatchInfo matchInfo = new MatchInfo();
+    matchInfo.setUser1(login_user.getId());
+    matchInfo.setUser2(id_user.getId());
+    matchInfo.setUser1Hand(hand);
+    matchInfo.setActive(true);
+    matchInfoMapper.insertMatchInfo(matchInfo);
+    model.addAttribute("matchinfo", matchInfo);
 
-    if (loginUser.equals("ほんだ")) {
-      login_id = 2;
-    }
-    Match te = new Match();
-    te.setUser1(login_id);
-    te.setUser2(id);
-    te.setUser1Hand(hand);
-    te.setUser2Hand(cpu_hand);
-    matchMapper.insertMatch(te);
-    ArrayList<Match> match = matchMapper.selectAllMatch();
-    model.addAttribute("match", match);
-    model.addAttribute("yourhand", hand);
-    model.addAttribute("cpuhand", cpu_hand);
-
-    if (hand.equals("Gu")) {
-      result = "draw!";
-      model.addAttribute("result", result);
-    } else if (hand.equals("Choki")) {
-      result = "You Lose!";
-      model.addAttribute("result", result);
-    } else if (hand.equals("Pa")) {
-      result = "You Win!";
-      model.addAttribute("result", result);
-    }
-    return "match.html";
+    return "wait.html";
 
   }
 
